@@ -13,7 +13,6 @@ def prime_test(N, k):
 		
     # Should return one of three values: 'prime', 'composite', or 'carmichael'
 
-    #teapot
 	return 'prime'
 
 
