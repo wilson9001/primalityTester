@@ -1,0 +1,26 @@
+~~~~~Design Experience~~~~~
+There are four functions, each of which I will write procedures and possibly pseudocode for in preparation for the actual lab. Comments and analysis on the algorithms may be included as well.
+
+prime test function:
+
+args: N, k where N is number to test and k is the number of tests to perform.
+
+create loop which generates k random numbers between 1 and N-1 and feeds them to our mod_exp function along with N-1 and N as number, power, and mod respectively.
+
+during this loop, if the test returns 1, we will push it into an array of tried numbers to use again later. If one of them returns something other than 1, then we know that the number isn't prime and return 'composite.' If the loop completes successfully, we will then test if the number is a Carmichael number by iterating over the tested numbers and performing the Miller-Rabin tests (this will be done in the is_carmichael function). If all Carmichael tests return false, then we will return 'prime.' Otherwise we will return 'carmichael.'
+
+is_carmichael:
+args: number, power, prime
+
+This test will consist of iteratively calling the mod_exp function, but halving the exponent each time before passing in the arguments. We continue until either the exponent cannot be divided by 2 again, or we obtain a number other than 1. If the result is -1, then we still don't know whether or not the number is prime. However, if it is any other number, we know that this number is a Carmichael number, and in either case we return the appropriate boolean value.
+
+mod exp function:
+args: number, power, mod
+
+This function implements an algorithm to solve modular exponentiation problems more efficiently than simply evaluating the entire exponetial statement and then modding it, since this method does not scale well. Instead, we will first check if power == 0. If yes, we return 1. Otherwise, we recursively call this function but pass in half the value of power (integer division aka floor division). This results in a stack of recursive calls until power reaches zero, at which point the function returns 1 and begins to unwind. Each function call then takes the value returned from the recursive layer under it and puts it into a new variable Z. The function then checks if power in the current context is even. If it is, the function returns Z^2 % mod. If it isn't, then the function returns number * z^2 % mod. The final layer will return the completed answer, having kept the size of the numbers involved down to a reasonable level by modding the results of every step, rather than just at the end. 
+
+calculate_probability
+
+args: number_of_tests
+
+Because roughly half all tests performed in the fermat test will fail on composite numbers, doing 1 test gives us a 1/2 chance of erroneously declaring a composite number as prime. Doing 2 tests cuts this probability to 1/4. In general, the probability of error is 1/(2^k), where k is the number of tests performed. This means that our function needs to return (1-(1/(2^k))) * 100
