@@ -10,7 +10,7 @@ create loop which generates k random numbers between 1 and N-1 and feeds them to
 during this loop, if the test returns 1, we will push it into an array of tried numbers to use again later. If one of them returns something other than 1, then we know that the number isn't prime and return 'composite.' If the loop completes successfully, we will then test if the number is a Carmichael number by iterating over the tested numbers and performing the Miller-Rabin tests (this will be done in the is_carmichael function). If all Carmichael tests return false, then we will return 'prime.' Otherwise we will return 'carmichael.'
 
 is_carmichael:
-args: number, power, prime
+args: number, prime
 
 This test will consist of iteratively calling the mod_exp function, but halving the exponent each time before passing in the arguments. We continue until either the exponent cannot be divided by 2 again, or we obtain a number other than 1. If the result is -1, then we still don't know whether or not the number is prime. However, if it is any other number, we know that this number is a Carmichael number, and in either case we return the appropriate boolean value.
 
